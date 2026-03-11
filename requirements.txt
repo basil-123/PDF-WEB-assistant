@@ -12,3 +12,4 @@ langchainhub==0.1.21
 beautifulsoup4==4.12.3
 requests
 PyMuPDF
+numpy<2.0.0
