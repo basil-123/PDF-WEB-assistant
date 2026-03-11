@@ -1,0 +1,14 @@
+streamlit==1.42.0
+langchain==0.3.17
+langchain-groq
+langchain-huggingface
+sentence-transformers
+chromadb==0.5.0
+pypdf==5.2.0
+rank_bm25==0.2.2
+python-dotenv==1.0.1
+langchain-community==0.3.16
+langchainhub==0.1.21
+beautifulsoup4==4.12.3
+requests
+PyMuPDF
