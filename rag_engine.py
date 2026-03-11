@@ -14,7 +14,7 @@ from langchain.memory import ConversationBufferMemory
 from langchain_core.documents import Document
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.tools import Tool
-from config import EMBEDDING_MODEL, LLM_MODEL
+from config import EMBEDDING_MODEL, AVAILABLE_MODELS
 from pdf_engine import modify_pdf_tool_func
 
 
@@ -111,7 +111,10 @@ def build_agent(retriever):
     )
 
     tools = [search_tool, edit_tool]
-    llm = ChatGroq(model=LLM_MODEL, temperature=0)
+    
+    selected_model = st.session_state.get("selected_model", AVAILABLE_MODELS[0])
+    llm = ChatGroq(model=selected_model, temperature=0)
+    
     base_prompt = hub.pull("hwchase17/react-chat")
     prompt = base_prompt.partial(system_message=SYSTEM_PROMPT)
     agent = create_react_agent(llm, tools, prompt)

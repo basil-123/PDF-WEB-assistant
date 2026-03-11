@@ -16,8 +16,12 @@ APP_ICON = "🧠"
 CHUNK_SIZE = 800
 CHUNK_OVERLAP = 150
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
-LLM_MODEL = "llama-3.3-70b-versatile"
-
+AVAILABLE_MODELS = [
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant",
+    "mixtral-8x7b-32768",
+    "gemma2-9b-it"
+]
 # PDF Font fallback
 DEFAULT_FONT = "helv"
 DEFAULT_FONT_SIZE = 11.0

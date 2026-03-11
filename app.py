@@ -102,8 +102,15 @@ def main():
                             st.session_state.pop("modified_pdf", None)
 
                     except Exception as e:
-                        st.error(f"Agent error: {e}")
-    else:
+                        error_msg = str(e).lower()
+                        if "rate limit" in error_msg or "429" in error_msg:
+                            st.warning(
+                                "⚠️ **Rate Limit Reached!**\n\n"
+                                "The current AI model has reached its usage limit on your Groq API key.\n\n"
+                                "**Please expand the '⚙️ Settings' section in the sidebar and select a different AI Model to continue.**"
+                            )
+                        else:
+                            st.error(f"Agent error: {e}")
         render_welcome()
 
 

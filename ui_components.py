@@ -4,7 +4,7 @@ DocuMind AI — UI Components
 import streamlit as st
 import hashlib
 from datetime import datetime
-from config import APP_TITLE
+from config import APP_TITLE, AVAILABLE_MODELS
 from pdf_engine import process_pdf, process_text, chunk_documents
 from web_scraper import scrape_url
 from rag_engine import rebuild_agent
@@ -24,6 +24,7 @@ def init_session():
         "query_count": 0,
         "total_chunks": 0,
         "pdf_bytes_store": {},
+        "selected_model": AVAILABLE_MODELS[0],
     }
     for k, v in defaults.items():
         if k not in st.session_state:
@@ -232,4 +233,20 @@ def render_sidebar():
         if st.button("🗑️ Reset Knowledge Base", use_container_width=True):
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
+            st.rerun()
+
+        # --- Settings ---
+        st.divider()
+        st.markdown("### ⚙️ Settings")
+        selected_index = AVAILABLE_MODELS.index(st.session_state["selected_model"]) if st.session_state["selected_model"] in AVAILABLE_MODELS else 0
+        new_model = st.selectbox(
+            "AI Agent Model",
+            options=AVAILABLE_MODELS,
+            index=selected_index,
+            help="If you encounter a Rate Limit Error, switch to another model to continue immediately."
+        )
+        if new_model != st.session_state["selected_model"]:
+            st.session_state["selected_model"] = new_model
+            if st.session_state.get("all_chunks"):
+                rebuild_agent()
             st.rerun()
