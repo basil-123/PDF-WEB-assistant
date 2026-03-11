@@ -113,7 +113,11 @@ def build_agent(retriever):
     tools = [search_tool, edit_tool]
     
     selected_model = st.session_state.get("selected_model", AVAILABLE_MODELS[0])
-    llm = ChatGroq(model=selected_model, temperature=0)
+    
+    user_api_key = st.session_state.get("user_api_key", "").strip()
+    api_key_kwargs = {"api_key": user_api_key} if user_api_key else {}
+    
+    llm = ChatGroq(model=selected_model, temperature=0, **api_key_kwargs)
     
     base_prompt = hub.pull("hwchase17/react-chat")
     prompt = base_prompt.partial(system_message=SYSTEM_PROMPT)

@@ -4,7 +4,7 @@ DocuMind AI — Main Entrypoint
 import streamlit as st
 
 # Import layout elements early if needed
-from config import APP_TITLE, APP_ICON
+from config import APP_TITLE, APP_ICON, APP_PASSWORD
 from styles import CUSTOM_CSS
 from ui_components import (
     init_session,
@@ -28,6 +28,21 @@ def main():
 
     st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
     init_session()
+
+    if APP_PASSWORD and not st.session_state.get("authenticated", False):
+        st.markdown("<div style='max-width: 400px; margin: 100px auto; padding: 30px; border-radius: 12px; background: rgba(30,30,40,0.8); border: 1px solid rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='text-align:center;'>{APP_ICON} {APP_TITLE}</h2>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align:center; color: #a1a1aa;'>This application is password protected.</p>", unsafe_allow_html=True)
+        pwd = st.text_input("Password", type="password", label_visibility="collapsed", placeholder="Enter Password")
+        if st.button("Unlock 🔓", use_container_width=True):
+            if pwd == APP_PASSWORD:
+                st.session_state["authenticated"] = True
+                st.rerun()
+            else:
+                st.error("Incorrect password.")
+        st.markdown("</div>", unsafe_allow_html=True)
+        return
+
     render_sidebar()
 
     # --- Main Content Area ---

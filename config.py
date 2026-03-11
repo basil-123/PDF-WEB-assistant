@@ -12,6 +12,8 @@ load_dotenv(os.path.join(_base_dir, ".env"))
 APP_TITLE = "DocuMind AI"
 APP_ICON = "🧠"
 
+APP_PASSWORD = os.getenv("APP_PASSWORD", "")
+
 # RAG
 CHUNK_SIZE = 800
 CHUNK_OVERLAP = 150
@@ -19,8 +21,11 @@ EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 AVAILABLE_MODELS = [
     "llama-3.3-70b-versatile",
     "llama-3.1-8b-instant",
+    "llama3-70b-8192",
+    "llama3-8b-8192",
     "mixtral-8x7b-32768",
-    "gemma2-9b-it"
+    "gemma2-9b-it",
+    "gemma-7b-it"
 ]
 # PDF Font fallback
 DEFAULT_FONT = "helv"

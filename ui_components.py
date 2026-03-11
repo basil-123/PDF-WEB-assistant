@@ -238,6 +238,18 @@ def render_sidebar():
         # --- Settings ---
         st.divider()
         st.markdown("### ⚙️ Settings")
+        
+        user_key = st.text_input(
+            "Custom Groq API Key (Optional)", 
+            type="password", 
+            help="If you hit a Rate Limit, paste your own Groq API key here to bypass it."
+        )
+        if user_key != st.session_state.get("user_api_key", ""):
+            st.session_state["user_api_key"] = user_key
+            if st.session_state.get("all_chunks"):
+                rebuild_agent()
+            st.rerun()
+
         selected_index = AVAILABLE_MODELS.index(st.session_state["selected_model"]) if st.session_state["selected_model"] in AVAILABLE_MODELS else 0
         new_model = st.selectbox(
             "AI Agent Model",
